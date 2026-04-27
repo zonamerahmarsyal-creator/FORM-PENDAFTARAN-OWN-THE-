@@ -22,11 +22,13 @@ body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
 .header p{margin-top:8px;font-size:13px;opacity:0.9}
 
 /* BANNER */
-.banner img{width:100%}
+.banner img{
+  width:100%;
+  display:block;
+}
 
 /* CONTAINER */
 .container{padding:20px}
-
 .title{font-size:22px;margin-bottom:15px}
 
 /* CARD */
@@ -63,7 +65,6 @@ body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
   color:#fff;
   padding:10px 18px;
   border-radius:8px;
-  text-decoration:none;
   cursor:pointer;
 }
 
@@ -85,14 +86,14 @@ body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
 
 .btn-full{
   width:100%;
-  display:block;
   margin-top:10px;
-  padding:12px;
+  padding:14px;
   text-align:center;
   background:#1565d8;
   color:#fff;
   border-radius:10px;
-  text-decoration:none;
+  font-weight:600;
+  cursor:pointer;
 }
 
 /* FOOTER */
@@ -122,7 +123,7 @@ footer{
 
   <div class="title">Kategori Tiket</div>
 
-  <!-- CARD 5K -->
+  <!-- 5K -->
   <div class="card">
     <h3>Early Bird - 5K Race</h3>
     <div class="info">📅 26 Juli 2026</div>
@@ -134,7 +135,7 @@ footer{
     </div>
   </div>
 
-  <!-- CARD 10K -->
+  <!-- 10K -->
   <div class="card">
     <h3>Early Bird - 10K Race</h3>
     <div class="info">📅 26 Juli 2026</div>
@@ -146,16 +147,20 @@ footer{
     </div>
   </div>
 
-  <div class="subtotal" id="subtotal">Subtotal (0 tiket) - Rp 0</div>
+  <!-- SUBTOTAL -->
+  <div class="subtotal" id="subtotal">
+    Subtotal (0 tiket) - Rp 0
+  </div>
 
+  <!-- ORDER -->
   <div class="order-box">
     <h3>Pesananmu</h3>
     <p id="info">Belum ada tiket dipilih</p>
-    
-    <!-- REDIRECT -->
-    <a href="https://zonamerahmarsyal-creator.github.io/PEMBAYARAN-OWN-THE/" class="btn-full">
+
+    <!-- BUTTON REDIRECT FIX -->
+    <div class="btn-full" onclick="goPay()">
       Daftar Sekarang
-    </a>
+    </div>
   </div>
 
 </div>
@@ -169,7 +174,7 @@ let total = 0;
 let count = 0;
 
 function formatRupiah(angka){
-  return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return "Rp " + angka.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".");
 }
 
 function addTicket(price){
@@ -181,6 +186,10 @@ function addTicket(price){
 
   document.getElementById("info").innerText =
     `${count} tiket dipilih`;
+}
+
+function goPay(){
+  window.location.href = "https://zonamerahmarsyal-creator.github.io/PEMBAYARAN-OWN-THE/";
 }
 </script>
 
