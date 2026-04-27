@@ -9,7 +9,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
+body{background:#f3f4f6;color:#111}
 
 /* HEADER */
 .header{
@@ -60,12 +60,21 @@ body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
   font-weight:700;
 }
 
+/* BUTTON +/- */
+.counter{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .btn{
   background:#1565d8;
   color:#fff;
-  padding:10px 18px;
-  border-radius:8px;
+  padding:8px 14px;
+  border-radius:6px;
   cursor:pointer;
+  font-weight:bold;
+  user-select:none;
 }
 
 /* SUBTOTAL */
@@ -129,9 +138,14 @@ footer{
     <div class="info">📅 26 Juli 2026</div>
     <div class="info">⏰ 05:00 - 10:30 WIB</div>
     <div class="line"></div>
+
     <div class="price-row">
       <div class="price">Rp 199.000</div>
-      <div class="btn" onclick="addTicket(199000)">Pilih Tiket</div>
+      <div class="counter">
+        <div class="btn" onclick="changeQty('5k', -1)">-</div>
+        <span id="qty-5k">0</span>
+        <div class="btn" onclick="changeQty('5k', 1)">+</div>
+      </div>
     </div>
   </div>
 
@@ -141,9 +155,14 @@ footer{
     <div class="info">📅 26 Juli 2026</div>
     <div class="info">⏰ 05:00 - 10:30 WIB</div>
     <div class="line"></div>
+
     <div class="price-row">
       <div class="price">Rp 329.000</div>
-      <div class="btn" onclick="addTicket(329000)">Pilih Tiket</div>
+      <div class="counter">
+        <div class="btn" onclick="changeQty('10k', -1)">-</div>
+        <span id="qty-10k">0</span>
+        <div class="btn" onclick="changeQty('10k', 1)">+</div>
+      </div>
     </div>
   </div>
 
@@ -157,7 +176,6 @@ footer{
     <h3>Pesananmu</h3>
     <p id="info">Belum ada tiket dipilih</p>
 
-    <!-- BUTTON REDIRECT FIX -->
     <div class="btn-full" onclick="goPay()">
       Daftar Sekarang
     </div>
@@ -170,22 +188,48 @@ footer{
 </footer>
 
 <script>
-let total = 0;
-let count = 0;
+let prices = {
+  "5k": 199000,
+  "10k": 329000
+};
+
+let qty = {
+  "5k": 0,
+  "10k": 0
+};
 
 function formatRupiah(angka){
-  return "Rp " + angka.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".");
+  return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function addTicket(price){
-  total += price;
-  count++;
+function changeQty(type, change){
+  qty[type] += change;
+
+  if(qty[type] < 0) qty[type] = 0;
+
+  document.getElementById("qty-" + type).innerText = qty[type];
+
+  updateTotal();
+}
+
+function updateTotal(){
+  let total = 0;
+  let count = 0;
+
+  for(let key in qty){
+    total += qty[key] * prices[key];
+    count += qty[key];
+  }
 
   document.getElementById("subtotal").innerText =
     `Subtotal (${count} tiket) - ${formatRupiah(total)}`;
 
-  document.getElementById("info").innerText =
-    `${count} tiket dipilih`;
+  if(count === 0){
+    document.getElementById("info").innerText = "Belum ada tiket dipilih";
+  } else {
+    document.getElementById("info").innerText =
+      `${count} tiket dipilih`;
+  }
 }
 
 function goPay(){
