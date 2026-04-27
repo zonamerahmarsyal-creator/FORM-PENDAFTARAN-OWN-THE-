@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Own The Way Race 2026</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{background:#f3f4f6;color:#111}
+body{background:#f3f4f6;color:#111;scroll-behavior:smooth}
 
 /* HEADER */
 .header{
@@ -17,30 +18,16 @@ body{background:#f3f4f6;color:#111}
   padding:20px;
 }
 
-.header h1{
-  font-size:20px;
-}
-
-.header p{
-  margin-top:8px;
-  font-size:13px;
-  opacity:0.9;
-}
+.header h1{font-size:20px}
+.header p{margin-top:8px;font-size:13px;opacity:0.9}
 
 /* BANNER */
-.banner img{
-  width:100%;
-  display:block;
-}
+.banner img{width:100%}
 
-.container{
-  padding:20px;
-}
+/* CONTAINER */
+.container{padding:20px}
 
-.title{
-  font-size:22px;
-  margin-bottom:15px;
-}
+.title{font-size:22px;margin-bottom:15px}
 
 /* CARD */
 .card{
@@ -51,16 +38,9 @@ body{background:#f3f4f6;color:#111}
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-.card h3{
-  font-size:18px;
-  margin-bottom:10px;
-}
+.card h3{font-size:18px;margin-bottom:10px}
 
-.info{
-  font-size:14px;
-  margin:5px 0;
-  color:#555;
-}
+.info{font-size:14px;margin:5px 0;color:#555}
 
 .line{
   border-top:1px dashed #ccc;
@@ -84,7 +64,7 @@ body{background:#f3f4f6;color:#111}
   padding:10px 18px;
   border-radius:8px;
   text-decoration:none;
-  font-size:14px;
+  cursor:pointer;
 }
 
 /* SUBTOTAL */
@@ -101,9 +81,7 @@ body{background:#f3f4f6;color:#111}
   margin-top:15px;
 }
 
-.order-box h3{
-  color:#1565d8;
-}
+.order-box h3{color:#1565d8}
 
 .btn-full{
   width:100%;
@@ -114,6 +92,7 @@ body{background:#f3f4f6;color:#111}
   background:#1565d8;
   color:#fff;
   border-radius:10px;
+  text-decoration:none;
 }
 
 /* FOOTER */
@@ -123,7 +102,6 @@ footer{
   font-size:12px;
   color:#888;
 }
-
 </style>
 </head>
 
@@ -131,13 +109,13 @@ footer{
 
 <!-- BANNER -->
 <div class="banner">
-  <img src="banner.jpg" alt="Banner Event">
+  <img src="banner.jpg">
 </div>
 
 <!-- HEADER -->
 <div class="header">
   <h1>Own The Way Race 2026</h1>
-  <p>NARMA Toserba Harvest City Cileungsi, Cileungsi Kidul, Cileungsi, Kabupaten Bogor, Jawa Barat, Indonesia</p>
+  <p>NARMA Toserba Harvest City Cileungsi, Kabupaten Bogor</p>
 </div>
 
 <div class="container">
@@ -146,43 +124,65 @@ footer{
 
   <!-- CARD 5K -->
   <div class="card">
-    <h3>Early Bird - 5K Race (incl. Jersey & Medal)</h3>
-    <div class="info">📅 Min, 26 Jul 2026</div>
+    <h3>Early Bird - 5K Race</h3>
+    <div class="info">📅 26 Juli 2026</div>
     <div class="info">⏰ 05:00 - 10:30 WIB</div>
-    <div class="info">📌 Penjualan berakhir 12 Juli 2026</div>
     <div class="line"></div>
     <div class="price-row">
       <div class="price">Rp 199.000</div>
-      <a href="#" class="btn">Pilih Tiket</a>
+      <div class="btn" onclick="addTicket(199000)">Pilih Tiket</div>
     </div>
   </div>
 
   <!-- CARD 10K -->
   <div class="card">
-    <h3>Early Bird - 10K Race (incl. Jersey & Medal)</h3>
-    <div class="info">📅 Min, 26 Jul 2026</div>
+    <h3>Early Bird - 10K Race</h3>
+    <div class="info">📅 26 Juli 2026</div>
     <div class="info">⏰ 05:00 - 10:30 WIB</div>
-    <div class="info">📌 Penjualan berakhir 12 Juli 2026</div>
     <div class="line"></div>
     <div class="price-row">
       <div class="price">Rp 329.000</div>
-      <a href="#" class="btn">Pilih Tiket</a>
+      <div class="btn" onclick="addTicket(329000)">Pilih Tiket</div>
     </div>
   </div>
 
-  <div class="subtotal">Subtotal (0 tiket)</div>
+  <div class="subtotal" id="subtotal">Subtotal (0 tiket) - Rp 0</div>
 
   <div class="order-box">
     <h3>Pesananmu</h3>
-    <p>Tiket yang kamu pilih akan tampil disini</p>
-    <a href="#" class="btn-full">Lanjutkan</a>
+    <p id="info">Belum ada tiket dipilih</p>
+    
+    <!-- REDIRECT -->
+    <a href="https://zonamerahmarsyal-creator.github.io/PEMBAYARAN-OWN-THE/" class="btn-full">
+      Daftar Sekarang
+    </a>
   </div>
 
 </div>
 
 <footer>
-  Dikembangkan oleh etix
+  © 2026 Own The Way Race
 </footer>
+
+<script>
+let total = 0;
+let count = 0;
+
+function formatRupiah(angka){
+  return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function addTicket(price){
+  total += price;
+  count++;
+
+  document.getElementById("subtotal").innerText =
+    `Subtotal (${count} tiket) - ${formatRupiah(total)}`;
+
+  document.getElementById("info").innerText =
+    `${count} tiket dipilih`;
+}
+</script>
 
 </body>
 </html>
